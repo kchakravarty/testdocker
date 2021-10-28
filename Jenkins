@@ -1,0 +1,38 @@
+pipeline{
+    agent any
+    environment{
+        CRED = credentials('76caf178-26b8-43c2-b75c-8777b794fc80')
+    }
+
+    stages{
+        stage('Checkout') {
+            steps{
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/kchakravarty/testdocker']]])
+            }
+                
+        }
+        stage('Build Image'){
+            steps{
+                script{
+                    sh 'docker build -t kopalc/jenkins-docker:v1 .'
+                }
+            }
+        }
+        stage('Approval'){
+            steps{
+                input 'Do you want to proceed?'
+            }
+        }
+        
+        stage('Push Image'){
+            steps{
+                script{
+                    sh 'echo $CRED_PSW | docker login -u $CRED_USR --password-stdin'
+                    sh 'docker push kopalc/jenkins-docker:v1' 
+            }
+        }
+        
+        
+    }
+}
+}
