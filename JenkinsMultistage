@@ -1,0 +1,33 @@
+pipeline {
+    agent { label 'Docker_kopal'}
+
+    stages {
+        stage('DEV') {
+            steps {
+                echo Kopal
+            }
+        }
+        stage('UAT'){
+            steps{
+                echo "Kopal"
+            }
+        }
+        stage('PROD'){
+            steps{
+                echo "Kopal"
+            }
+        }
+        
+    }
+    post{
+        success{
+            echo "Task executed successfully!"
+        }
+        failure{
+            echo "Execution Failed!"
+        }
+        always{
+            echo "Step will always execute!"
+        }
+    }
+}
