@@ -1,0 +1,62 @@
+
+ pipeline{
+    agent any
+    stages{
+    stage('DEV Stage'){
+        steps{
+            script{
+                echo "${params.DEV}"
+                
+            }
+        }
+    }
+    stage('APPROVE-QA'){
+        input{
+            message "Do you want to proceed?"
+            submitter "manager"
+        }
+        steps{
+            echo ""
+        }
+    }
+    stage('QA Stage'){
+        steps{
+            script{
+                echo ""
+                
+            }
+        }
+    }
+    stage('APPROVE-UAT'){
+        input{
+            message "Do you want to proceed?"
+            submitter "manager"
+        }
+        steps{
+            echo ""
+        }
+    }
+    stage('UAT Stage'){
+        steps{
+            echo "${params.UAT}"
+        }
+    }
+    stage('APPROVE-PROD'){
+        input{
+            message "Do you want to proceed?"
+            submitter "manager"
+        }
+        steps{
+            echo ""
+        }
+    }
+    stage('PROD Stage'){
+        steps{
+            echo "${params.PROD}"
+        }
+    }
+    
+    
+}
+    
+}
